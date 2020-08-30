@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <soup.neumorphism.NeumorphButton
+        android:id="@+id/btnGen"
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawablePadding="8dp"
+        android:text="scan qrcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+
+    <soup.neumorphism.NeumorphButton
+        android:id="@+id/btnHistory"
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawablePadding="8dp"
+        android:text="generate qr code"
+        app:layout_constraintEnd_toEndOf="@+id/btnGen"
+        app:layout_constraintStart_toStartOf="@+id/btnGen"
+        app:layout_constraintTop_toBottomOf="@+id/btnGen" />
+
+    <soup.neumorphism.NeumorphButton
+        android:id="@+id/btnScn"
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawablePadding="8dp"
+        android:text="history"
+        app:layout_constraintEnd_toEndOf="@+id/btnHistory"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="@+id/btnHistory"
+        app:layout_constraintTop_toBottomOf="@+id/btnHistory" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="384dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
