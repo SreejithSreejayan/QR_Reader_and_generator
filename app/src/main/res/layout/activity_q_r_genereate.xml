@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QRGenerateActivity">
+
+  <soup.neumorphism.NeumorphCardView
+      android:id="@+id/imgview_card"
+      style="@style/Widget.Neumorph.CardView"
+      android:layout_width="300dp"
+      android:layout_height="300dp"
+      android:layout_marginTop="40dp"
+      app:layout_constraintEnd_toEndOf="@+id/btnGenerate"
+      app:layout_constraintStart_toStartOf="@+id/btnGenerate"
+      app:layout_constraintTop_toBottomOf="@+id/btnGenerate">
+
+    <ImageView
+        android:id="@+id/QRView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:srcCompat="@tools:sample/avatars" />
+  </soup.neumorphism.NeumorphCardView>
+
+  <soup.neumorphism.NeumorphButton
+      android:id="@+id/btnGenerate"
+      style="@style/Widget.Neumorph.Button"
+      android:layout_width="280dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="40dp"
+      android:drawablePadding="8dp"
+      android:text="Generate"
+      app:layout_constraintEnd_toEndOf="@+id/editview_card"
+      app:layout_constraintHorizontal_bias="0.496"
+      app:layout_constraintStart_toStartOf="@+id/editview_card"
+      app:layout_constraintTop_toBottomOf="@+id/editview_card" />
+
+  <soup.neumorphism.NeumorphCardView
+      android:id="@+id/editview_card"
+      style="@style/Widget.Neumorph.CardView"
+      android:layout_width="350dp"
+      android:layout_height="150dp"
+      android:layout_marginStart="48dp"
+      android:layout_marginTop="50dp"
+      android:layout_marginEnd="48dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <EditText
+        android:id="@+id/editTxt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/zxing_transparent"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Type something that you want to encode in the QR code"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="51dp" />
+
+
+  </soup.neumorphism.NeumorphCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
