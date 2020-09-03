@@ -10,64 +10,25 @@
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/camview_card"
         style="@style/Widget.Neumorph.CardView"
-        android:layout_width="350dp"
-        android:layout_height="450dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="48dp"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <SurfaceView
             android:id="@+id/surfaceView"
-            android:padding="12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btnAction"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:padding="12dp" />
     </soup.neumorphism.NeumorphCardView>
-
-
-    <soup.neumorphism.NeumorphCardView
-        android:id="@+id/textview_card"
-        style="@style/Widget.Neumorph.CardView"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAction"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camview_card">
-
-        <TextView
-            android:id="@+id/txtBarcodeValue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="No Barcode Detected"
-            android:layout_marginVertical="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="59dp"
-            tools:layout_editor_absoluteY="230dp" />
-    </soup.neumorphism.NeumorphCardView>
-
-    <soup.neumorphism.NeumorphButton
-        android:id="@+id/btnAction"
-        style="@style/Widget.Neumorph.Button"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:drawablePadding="8dp"
-        android:text="ADD CONTENT IN THE MAIL"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

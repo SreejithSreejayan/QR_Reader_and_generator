@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ResultActivity">
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/rsltview_card"
+        style="@style/Widget.Neumorph.CardView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/resultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="center" />
+
+    </soup.neumorphism.NeumorphCardView>
+
+    <soup.neumorphism.NeumorphButton
+        android:id="@+id/btnAnotherScan"
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:text="scan another qr code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rsltview_card"
+        app:layout_constraintStart_toStartOf="@+id/rsltview_card"
+        app:layout_constraintTop_toBottomOf="@+id/rsltview_card" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

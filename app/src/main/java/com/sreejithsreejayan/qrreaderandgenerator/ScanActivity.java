@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,15 +27,12 @@ import java.io.IOException;
 
 public class ScanActivity extends AppCompatActivity {
 
-//    TextView errTxt;
     SurfaceView surfaceView;
-    TextView txtBarcodeValue;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-    Button btnAction;
     String intentData = "";
-    boolean isEmail = false;
+    Vibrator vibe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,38 +40,11 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
         initView();
-
-//        errTxt=findViewById(R.id.txtBarcodeValue)
-//
-//        BarcodeDetector detector =
-//                new BarcodeDetector.Builder(getApplicationContext()).build();
-//        if(!detector.isOperational()){
-//            errTxt.setText("Could not set up the detector!");
-//            return;
-//        }
     }
 
     private void initView() {
-        txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
-        btnAction = findViewById(R.id.btnAction);
-
-        btnAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (intentData.length() > 0) {
-                    if (isEmail) {
-                        Toast.makeText(getApplicationContext(), "is Email", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(ScannedBarcodeActivity.this, EmailActivity.class).putExtra("email_address", intentData));
-                    } else {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
-                    }
-                }
-
-
-            }
-        });
+        vibe = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
 
@@ -85,7 +57,7 @@ public class ScanActivity extends AppCompatActivity {
                     .build();
 
             cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                    .setRequestedPreviewSize(1920, 1080)
+                    .setRequestedPreviewSize(600,600)
                     .setAutoFocusEnabled(true) //you should add this feature
                     .build();
 
@@ -130,24 +102,15 @@ public class ScanActivity extends AppCompatActivity {
                     if (barcodes.size() != 0) {
 
 
-                        txtBarcodeValue.post(new Runnable() {
+                        surfaceView.post(new Runnable() {
 
                             @Override
                             public void run() {
 
-                                if (barcodes.valueAt(0).email != null) {
-                                    txtBarcodeValue.removeCallbacks(null);
-                                    intentData = barcodes.valueAt(0).email.address;
-                                    txtBarcodeValue.setText(intentData);
-                                    isEmail = true;
-                                    btnAction.setText("ADD CONTENT TO THE MAIL");
-                                } else {
-                                    isEmail = false;
-                                    btnAction.setText("LAUNCH URL");
-                                    intentData = barcodes.valueAt(0).displayValue;
-                                    txtBarcodeValue.setText(intentData);
+                                intentData = barcodes.valueAt(0).displayValue;
+                                startResultActivity();
 
-                                }
+//                                }
                             }
                         });
 
@@ -156,8 +119,16 @@ public class ScanActivity extends AppCompatActivity {
             });
         }
 
+    private void startResultActivity() {
+        vibe.vibrate(100);
+        Intent result = new Intent(ScanActivity.this,ResultActivity.class);
+        result.putExtra("resultString",intentData);
+        startActivity(result);
 
-        @Override
+    }
+
+
+    @Override
         protected void onPause() {
             super.onPause();
             cameraSource.release();
