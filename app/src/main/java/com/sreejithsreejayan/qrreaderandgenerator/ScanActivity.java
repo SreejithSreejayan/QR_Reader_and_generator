@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -25,6 +28,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -35,6 +39,7 @@ public class ScanActivity extends AppCompatActivity {
     String intentData = "";
     Vibrator vibe;
     private boolean isFlashOn=false;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,8 @@ public class ScanActivity extends AppCompatActivity {
     private void initView() {
         surfaceView = findViewById(R.id.surfaceView);
         vibe = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        databaseHelper = new DatabaseHelper(this);
     }
 
 
@@ -123,12 +130,23 @@ public class ScanActivity extends AppCompatActivity {
 
     private void startResultActivity() {
         vibe.vibrate(100);
+        long test = new Date().getTime();
+        try{
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            ContentValues contentValues= new ContentValues();
+            contentValues.put("qr_encoded_data",intentData);
+            contentValues.put("date_and_time",new Date().getTime());
+            database.insert("scannerhistory",null,contentValues);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
         Intent result = new Intent(ScanActivity.this, ResultActivity.class);
         result.putExtra("resultString", intentData);
         startActivity(result);
-
     }
-
 
     @Override
     protected void onPause() {
@@ -158,6 +176,7 @@ public class ScanActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
             default:
                 Toast.makeText(ScanActivity.this, "someting went wrong", Toast.LENGTH_SHORT).show();
                 break;
@@ -193,13 +212,6 @@ public class ScanActivity extends AppCompatActivity {
     public void setFlash() throws IOException {
         getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         cameraSource.start(surfaceView.getHolder());
