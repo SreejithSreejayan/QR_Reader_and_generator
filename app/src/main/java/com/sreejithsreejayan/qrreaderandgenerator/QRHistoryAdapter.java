@@ -54,8 +54,8 @@ public class QRHistoryAdapter extends RecyclerView.Adapter<QRHistoryAdapter.View
 
         TextView textView=holder.QRData;
         textView.setText(qrHistory.getQREncodedData());
-        TextView dateView=holder.QRData;
-        dateView.setText(String.format("%d",qrHistory.getDate()));
+        TextView dateView=holder.Date;
+        dateView.setText(qrHistory.getDate());
     }
 
     @Override

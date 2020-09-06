@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String SQLCommand="CREATE TABLE scannerhistory(id integer primary key autoincrement,qr_encoded_data text,date_and_time integer);";
+        String SQLCommand="CREATE TABLE scannerhistory(id integer primary key autoincrement,qr_encoded_data text,date_and_time text);";
         db.execSQL(SQLCommand);
 //        String SQLCommand2="CREATE TABLE generatorhistory(id integer primary key autoincrement,qr_encoder_data text,date_and_time integer);";
 //        db.execSQL(SQLCommand2);

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class QRHistory {
     private int id;
     private String QREncodedData;
-    private long Date;
+    private String Date;
 
     public QRHistory() {
     }
 
-    public QRHistory(int id, String QREncodedData, long date) {
+    public QRHistory(int id, String QREncodedData, String date) {
         this.id = id;
         this.QREncodedData = QREncodedData;
         Date = date;
@@ -32,11 +32,11 @@ public class QRHistory {
         this.QREncodedData = QREncodedData;
     }
 
-    public long getDate() {
+    public String getDate() {
         return Date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         Date = date;
     }
 }

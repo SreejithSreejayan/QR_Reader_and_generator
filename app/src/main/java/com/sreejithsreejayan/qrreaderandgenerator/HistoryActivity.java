@@ -39,7 +39,7 @@ public class HistoryActivity extends AppCompatActivity {
                         QRHistory s = new QRHistory();
                         int id = cursor.getInt(cursor.getColumnIndex("id"));
                         String qrEncodedData =cursor.getString(cursor.getColumnIndex("qr_encoded_data"));
-                        long dateAndTime =cursor.getInt(cursor.getColumnIndex("date_and_time"));
+                        String dateAndTime =cursor.getString(cursor.getColumnIndex("date_and_time"));
                         s.setId(id);
                         s.setQREncodedData(qrEncodedData);
                         s.setDate(dateAndTime);

@@ -28,7 +28,11 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -40,6 +44,9 @@ public class ScanActivity extends AppCompatActivity {
     Vibrator vibe;
     private boolean isFlashOn=false;
     private DatabaseHelper databaseHelper;
+    Calendar calendar;
+    SimpleDateFormat simpleDateFormat;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +61,8 @@ public class ScanActivity extends AppCompatActivity {
         vibe = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         databaseHelper = new DatabaseHelper(this);
+        calendar = Calendar.getInstance();
     }
-
 
     private void initialiseDetectorsAndSources() {
 
@@ -109,20 +116,15 @@ public class ScanActivity extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-
-
-                    surfaceView.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            intentData = barcodes.valueAt(0).displayValue;
-                            startResultActivity();
-
-
-                        }
-                    });
-
+                    if (intentData==""){
+                        surfaceView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                intentData = barcodes.valueAt(0).displayValue;
+                                startResultActivity();
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -130,12 +132,14 @@ public class ScanActivity extends AppCompatActivity {
 
     private void startResultActivity() {
         vibe.vibrate(100);
-        long test = new Date().getTime();
+        simpleDateFormat = new SimpleDateFormat("dd-MM-YYYY",Locale.getDefault());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+        date=simpleDateFormat.format(calendar.getTime());
         try{
             SQLiteDatabase database = databaseHelper.getWritableDatabase();
             ContentValues contentValues= new ContentValues();
-            contentValues.put("qr_encoded_data",intentData);
-            contentValues.put("date_and_time",new Date().getTime());
+            contentValues.put("qr_encoded_data", intentData);
+            contentValues.put("date_and_time",date);
             database.insert("scannerhistory",null,contentValues);
 
         }catch (SQLException e){
