@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -74,7 +73,7 @@ public class ScanActivity extends AppCompatActivity {
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
                 .setRequestedPreviewSize(600, 600)
-                .setAutoFocusEnabled(true) //you should add this feature
+                .setAutoFocusEnabled(true)
                 .build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -109,7 +108,6 @@ public class ScanActivity extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -141,6 +139,7 @@ public class ScanActivity extends AppCompatActivity {
             contentValues.put("qr_encoded_data", intentData);
             contentValues.put("date_and_time",date);
             database.insert("scannerhistory",null,contentValues);
+            database.close();
 
         }catch (SQLException e){
             e.printStackTrace();

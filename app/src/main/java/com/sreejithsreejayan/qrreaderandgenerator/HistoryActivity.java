@@ -1,16 +1,23 @@
 package com.sreejithsreejayan.qrreaderandgenerator;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -66,6 +73,45 @@ public class HistoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.activity_history_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.deleteHistory:
+                deleteHistoryDB();
+                break;
+            default:
+                Toast.makeText(HistoryActivity.this,"Someting went wrong",Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
+
+    private void deleteHistoryDB() {
+
+
+        new AlertDialog.Builder(HistoryActivity.this).setTitle("Delete all history").setMessage("Are you sure you want to delete all the scan history").setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                SQLiteDatabase database=DBHelper.getWritableDatabase();
+                database.delete("scannerhistory",null,null);
+                database.close();
+                Toast.makeText(HistoryActivity.this,"Scan history successfully deleted",Toast.LENGTH_SHORT).show();
+                finish();
+
+            }
+        }).show();
 
 
     }
