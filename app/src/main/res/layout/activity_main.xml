@@ -43,15 +43,28 @@
         app:layout_constraintStart_toStartOf="@+id/btnGen"
         app:layout_constraintTop_toBottomOf="@+id/btnGen" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/camview_card"
+        style="@style/Widget.Neumorph.CardView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_logo"
+            android:layout_margin="2dp"/>
+
+    </soup.neumorphism.NeumorphCardView>
+
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
