@@ -1,6 +1,7 @@
 package com.sreejithsreejayan.qrreaderandgenerator;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.SparseArray;
@@ -33,6 +35,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class ScanActivity extends AppCompatActivity {
 
     SurfaceView surfaceView;
@@ -46,6 +50,8 @@ public class ScanActivity extends AppCompatActivity {
     Calendar calendar;
     SimpleDateFormat simpleDateFormat;
     String date;
+    String[] permission =new String[] {Manifest.permission.CAMERA};
+    int[] grantResult=new int[]{PERMISSION_GRANTED};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,25 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
         initView();
+
+        try {
+            if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                cameraSource.start(surfaceView.getHolder());
+            } else {
+                ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                onRequestPermissionsResult(REQUEST_CAMERA_PERMISSION,permission,grantResult);{
+                    if (grantResult[0]== PERMISSION_GRANTED){
+                        recreate();
+                    }else {
+                        Toast.makeText(ScanActivity.this,"Camera permission is needed to scan barcode",Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {
@@ -77,14 +102,17 @@ public class ScanActivity extends AppCompatActivity {
                 .build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
                     if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(surfaceView.getHolder());
                     } else {
-                        ActivityCompat.requestPermissions(ScanActivity.this, new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                            Toast.makeText(ScanActivity.this,"Camera permission id needed for scanning barcode",Toast.LENGTH_LONG).show();
+                        }
+                        ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
 
                 } catch (IOException e) {
