@@ -60,24 +60,18 @@ public class ScanActivity extends AppCompatActivity {
 
         initView();
 
-        try {
-            if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                cameraSource.start(surfaceView.getHolder());
-            } else {
-                ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                onRequestPermissionsResult(REQUEST_CAMERA_PERMISSION,permission,grantResult);{
-                    if (grantResult[0]== PERMISSION_GRANTED){
-                        recreate();
-                    }else {
-                        Toast.makeText(ScanActivity.this,"Camera permission is needed to scan barcode",Toast.LENGTH_LONG).show();
-                        finish();
-                    }
+        if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(ScanActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            onRequestPermissionsResult(REQUEST_CAMERA_PERMISSION,permission,grantResult);{
+                if (grantResult[0]== PERMISSION_GRANTED){
+                    recreate();
+                }else {
+                    Toast.makeText(ScanActivity.this,"Camera permission is needed to scan barcode",Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
     }
 
     private void initView() {
