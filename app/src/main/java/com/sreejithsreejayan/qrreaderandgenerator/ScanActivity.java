@@ -170,6 +170,7 @@ public class ScanActivity extends AppCompatActivity {
 
         Intent result = new Intent(ScanActivity.this, ResultActivity.class);
         result.putExtra("resultString", intentData);
+        result.putExtra("isFromHistory",false);
         startActivity(result);
     }
 

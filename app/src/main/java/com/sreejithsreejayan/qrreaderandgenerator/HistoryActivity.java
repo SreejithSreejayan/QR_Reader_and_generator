@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Timer;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements QRHistoryAdapter.onItemClickListener {
 
     ArrayList<QRHistory>histories;
     RecyclerView recyclerView;
@@ -68,7 +69,7 @@ public class HistoryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        QRHistoryAdapter adapter = new QRHistoryAdapter(histories);
+        QRHistoryAdapter adapter = new QRHistoryAdapter(histories,this);
 
         recyclerView.setAdapter(adapter);
 
@@ -114,5 +115,19 @@ public class HistoryActivity extends AppCompatActivity {
         }).show();
 
 
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        String qrData= histories.get(position).getQREncodedData();
+        Intent intent = new Intent(this,ResultActivity.class);
+        intent.putExtra("resultString",qrData);
+        intent.putExtra("isFromHistory",true);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,MainActivity.class));
     }
 }

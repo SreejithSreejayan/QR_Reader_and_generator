@@ -25,7 +25,8 @@
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             android:gravity="center"
-            android:text="TextView"
+            android:autoLink="all"
+            android:linksClickable="true"
             android:textAlignment="center" />
 
     </soup.neumorphism.NeumorphCardView>

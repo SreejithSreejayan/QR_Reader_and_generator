@@ -15,25 +15,34 @@ import java.util.List;
 public class QRHistoryAdapter extends RecyclerView.Adapter<QRHistoryAdapter.ViewHolder> {
 
     private ArrayList<QRHistory> mHistories;
+    private onItemClickListener mOnItemClickListener;
 
-//    public HistoryAdapter(List<QRHistory> histories) {
-//        mHistories = histories;
-//    }
 
-    public QRHistoryAdapter(ArrayList<QRHistory> histories) {
+    public QRHistoryAdapter(ArrayList<QRHistory> histories,onItemClickListener onItemClickListener) {
+        mOnItemClickListener=onItemClickListener;
         mHistories = histories;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView QRData,Date;
+        onItemClickListener onItemClickListener;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView,onItemClickListener onItemClickListener) {
             super(itemView);
 
+            itemView.setOnClickListener(this);
+
+            this.onItemClickListener=onItemClickListener;
             QRData= (TextView) itemView.findViewById(R.id.QRScanHistoryData);
             Date= (TextView) itemView.findViewById(R.id.QRScanHistoryDate);
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onItemClicked(getAdapterPosition());
         }
     }
 
@@ -44,8 +53,7 @@ public class QRHistoryAdapter extends RecyclerView.Adapter<QRHistoryAdapter.View
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View ScanHistory = inflater.inflate(R.layout.item_history,parent,false);
-        ViewHolder viewHolder= new ViewHolder(ScanHistory);
-        return viewHolder;
+        return new ViewHolder(ScanHistory,mOnItemClickListener);
     }
 
     @Override
@@ -61,5 +69,9 @@ public class QRHistoryAdapter extends RecyclerView.Adapter<QRHistoryAdapter.View
     @Override
     public int getItemCount() {
         return mHistories.size();
+    }
+
+    public interface onItemClickListener{
+        void onItemClicked(int position);
     }
 }

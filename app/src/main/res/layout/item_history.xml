@@ -8,8 +8,7 @@
         android:id="@+id/imgview_card"
         style="@style/Widget.Neumorph.CardView"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
-        app:neumorph_shapeType="pressed">
+        android:layout_height="85dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

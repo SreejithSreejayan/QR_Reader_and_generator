@@ -13,6 +13,7 @@ public class ResultActivity extends AppCompatActivity {
     String intentData;
     Button another;
     TextView resultView;
+    boolean isFromHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,26 +24,35 @@ public class ResultActivity extends AppCompatActivity {
         Intent result=getIntent();
         intentData=result.getExtras().getString("resultString");
         resultView.setText(intentData);
+        isFromHistory=result.getExtras().getBoolean("isFromHistory");
 
-
+        if(isFromHistory){
+            another.setVisibility(View.INVISIBLE);
+        }
 
     }
 
     private void initView() {
         another=findViewById(R.id.btnAnotherScan);
         resultView=findViewById(R.id.resultTextView);
-        another.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent scanActivity = new Intent(ResultActivity.this, ScanActivity.class);
-                startActivity(scanActivity);
-            }
+        if (!isFromHistory){
+            another.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent scanActivity = new Intent(ResultActivity.this, ScanActivity.class);
+                    startActivity(scanActivity);
+                }
 
-        });
+            });
+        }
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this,MainActivity.class));
+        if (isFromHistory){
+            startActivity(new Intent(this,HistoryActivity.class));
+        }else {
+            startActivity(new Intent(this,MainActivity.class));
+        }
     }
 }
